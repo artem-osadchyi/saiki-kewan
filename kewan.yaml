@@ -1,0 +1,40 @@
+# basic information for generating and executing this definition
+SenzaInfo:
+  StackName: kewan
+  Parameters:
+    - ImageVersion:
+        Description: "Docker image version of kewan."
+
+# a list of senza components to apply to the definition
+SenzaComponents:
+
+  # this basic configuration is required for the other components
+  - Configuration:
+      Type: Senza::StupsAutoConfiguration # auto-detect network setup
+
+  # will create a launch configuration and auto scaling group with scaling triggers
+  - AppServer:
+      Type: Senza::TaupageAutoScalingGroup
+      AutoScaling:
+        Minimum: 3
+        Maximum: 3
+        MetricType: CPU
+      InstanceType: t2.micro
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvdk
+          Ebs:
+            VolumeSize: 30
+      HealthCheckType: EC2
+      SecurityGroups:
+        - app-kewan
+      IamRoles:
+        - app-kewan
+      TaupageConfig:
+        runtime: Docker
+        source: "pierone.stups.zalan.do/bi/saiki_kewan:{{Arguments.ImageVersion}}"
+        ports:
+          2181: 2181
+          2888: 2888
+          3888: 3888
+        networking: host
+        mint_bucket: '{{Arguments.MintBucket}}'
