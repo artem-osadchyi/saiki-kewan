@@ -8,7 +8,7 @@ So by deploying Kewan, it will take all the EC2 instances of one autoscaling gro
 
 Usage
 =====
-After building the docker image, start it like this:
+Create an autoscaling group in AWS, and on each instance of this autoscaling group, after building the docker image, start Kewan like this:
 ```
 sudo docker run -p 2181:2181 -p 2888:2888 -p 3888:3888 -d --net=host <IMAGE_ID>
 ```
