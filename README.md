@@ -1,6 +1,6 @@
 Introduction
 ============
-Kewan (engl. animal) is Distributed ZooKeeper cluster appliance for AWS environment.
+Kewan (javanese for animal) is Distributed ZooKeeper cluster appliance for AWS environment.
 
 Kewan uses the recent release 3.4.6 version of ZooKeeper, this version can still not change the cluster membership without restarting.
 
