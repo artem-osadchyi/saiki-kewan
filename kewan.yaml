@@ -31,7 +31,7 @@ SenzaComponents:
         - app-kewan
       TaupageConfig:
         runtime: Docker
-        source: "pierone.stups.zalan.do/bi/saiki_kewan:{{Arguments.ImageVersion}}"
+        source: "{{Arguments.DockerImage}}:{{Arguments.ImageVersion}}"
         ports:
           2181: 2181
           2888: 2888
