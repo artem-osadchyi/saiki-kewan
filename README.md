@@ -17,7 +17,6 @@ Docker run option ```--net=host``` is needed, so zookeeper can bind the interfac
 Deployment with STUPS toolbox
 -----------------------------
 Prerequisites
-* Your AWS Accounts needs to be prepared by the STUPS Team.
 * You need to setup a Security Group which is named app-kewan (or similar to your app_id)
   * needs to reach itself on all ports
   * needs to be reach by outside via SSH / Port 22
