@@ -18,7 +18,7 @@ ADD zoo.cfg /opt/zookeeper-${ZOOKEEPER_VERSION}/conf/zoo.cfg
 
 ADD find_out_other_zk_hosts.py /tmp/find_out_other_zk_hosts.py
 RUN mkdir -p /var/zookeeper
-RUN chmod 777 /var/zookeeper
+RUN chmod -R 777 /var/zookeeper
 
 ADD adapt_config_and_start.sh /tmp/adapt_config_and_start.sh
 RUN chmod 777 /tmp/adapt_config_and_start.sh
