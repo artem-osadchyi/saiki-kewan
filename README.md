@@ -25,11 +25,13 @@ Prerequisites
   * EC2ReadOnlyAccess for finding out the other Nodes in the Cluster
 * You must have registered your application in YourTurn/Kio, so it can access the Mint Bucket.
 
-Then replace the variables in the template: kewan.yaml
+Push your docker image to STUPS ```PierOne```, then replace the variables in the template: ```kewan.yaml```
 
-Now create stack with senza use senza, like:
+Now create stack with senza use ```senza```, like:
 ```
 senza create kewan.yaml 1 0.1
 ```
+An autoscaling group will be created and Kewan docker container will be running on all of the EC2 instances in this autoscaling group.
+
 Check the STUPS documention for additional options:
 http://stups.readthedocs.org/en/latest/
