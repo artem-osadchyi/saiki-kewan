@@ -1,4 +1,3 @@
-# basic information for generating and executing this definition
 SenzaInfo:
   StackName: kewan
   Parameters:
@@ -8,15 +7,11 @@ SenzaInfo:
         Description: "Docker image path of kewan."
     - MintBucket:
         Description: "Mint Bucket of kewan."
-
-# a list of senza components to apply to the definition
+    - ScalyrAccountKey:
+        Description: "Scalyr Account Key, necessary for Logging."
 SenzaComponents:
-
-  # this basic configuration is required for the other components
   - Configuration:
-      Type: Senza::StupsAutoConfiguration # auto-detect network setup
-
-  # will create a launch configuration and auto scaling group with scaling triggers
+      Type: Senza::StupsAutoConfiguration
   - AppServer:
       Type: Senza::TaupageAutoScalingGroup
       AutoScaling:
@@ -28,7 +23,7 @@ SenzaComponents:
       SecurityGroups:
         - app-kewan
       IamRoles:
-        - app-kewan
+        - Ref: KewanRole
       TaupageConfig:
         runtime: Docker
         source: "{{Arguments.DockerImage}}:{{Arguments.ImageVersion}}"
@@ -38,3 +33,34 @@ SenzaComponents:
           3888: 3888
         networking: host
         mint_bucket: '{{Arguments.MintBucket}}'
+        scalyr_account_key: '{{Arguments.ScalyrAccountKey}}'
+Resources:
+  KewanRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: ec2.amazonaws.com
+          Action: sts:AssumeRole
+      Path: /
+      Policies:
+      - PolicyName: AmazonS3MintBucketAccess
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: Allow
+            Action: "s3:GetObject"
+            Resource: ["arn:aws:s3:::{{Arguments.MintBucket}}/*"]
+      - PolicyName: AmazonEC2MetadataReadAccess
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: Allow
+            Action: ec2:Describe*
+            Resource: "*"
+          - Effect: Allow
+            Action: autoscaling:Describe*
+            Resource: "*"
