@@ -47,7 +47,7 @@ wget https://raw.githubusercontent.com/zalando/saiki-kewan/master/kewan.yaml
 ###### execute senza with the definition file
 
 ```
-senza create kewan.yaml <STACK_VERSION> <DOCKER_VERSION> <DOCKER_IMAGE> <MINT_BUCKET> <SCALYR_LOGGING_KEY>
+senza create kewan.yaml <STACK_VERSION> <DOCKER_VERSION> <DOCKER_IMAGE> <MINT_BUCKET> <SCALYR_LOGGING_KEY> <APPLICATION_ID>
 ```
 
 An autoscaling group will be created and Kewan docker container will be running on all of the EC2 instances in this autoscaling group.
