@@ -9,6 +9,8 @@ SenzaInfo:
         Description: "Mint Bucket of kewan."
     - ScalyrAccountKey:
         Description: "Scalyr Account Key, necessary for Logging."
+    - ApplicationID:
+        Description: "The Application Id which got registered for kewan in Yourturn/Kio."
 SenzaComponents:
   - Configuration:
       Type: Senza::StupsAutoConfiguration
@@ -25,6 +27,7 @@ SenzaComponents:
       IamRoles:
         - Ref: KewanRole
       TaupageConfig:
+        application_id: "{{Arguments.ApplicationID}}"
         runtime: Docker
         source: "{{Arguments.DockerImage}}:{{Arguments.ImageVersion}}"
         ports:
