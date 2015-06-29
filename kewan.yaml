@@ -67,3 +67,24 @@ Resources:
           - Effect: Allow
             Action: autoscaling:Describe*
             Resource: "*"
+  KewanSecGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Kewan Appliance Security Group"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 2181
+          ToPort: 2181
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: tcp
+          FromPort: 2888
+          ToPort: 2888
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: tcp
+          FromPort: 3888
+          ToPort: 3888
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: "0.0.0.0/0"
