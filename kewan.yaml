@@ -23,7 +23,7 @@ SenzaComponents:
       InstanceType: t2.micro
       HealthCheckType: EC2
       SecurityGroups:
-        - app-kewan
+        - "Fn::GetAtt" : [ "KewanSecGroup" , "GroupId" ]
       IamRoles:
         - Ref: KewanRole
       TaupageConfig:
