@@ -1,10 +1,8 @@
 SenzaInfo:
   StackName: kewan
   Parameters:
-    - ImageVersion:
-        Description: "Docker image version of kewan."
     - DockerImage:
-        Description: "Docker image path of kewan."
+        Description: "Docker image path with version tag of kewan."
     - MintBucket:
         Description: "Mint Bucket of kewan."
     - ScalyrAccountKey:
@@ -29,7 +27,7 @@ SenzaComponents:
       TaupageConfig:
         application_id: "{{Arguments.ApplicationID}}"
         runtime: Docker
-        source: "{{Arguments.DockerImage}}:{{Arguments.ImageVersion}}"
+        source: "{{Arguments.DockerImage}}"
         ports:
           2181: 2181
           2888: 2888
