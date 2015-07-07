@@ -19,7 +19,7 @@ Deployment with STUPS toolbox
 
 ###### Create the docker and push
 
-Push your docker image to STUPS ```PierOne```, see here: http://stups.readthedocs.org/en/latest/user-guide/deployment.html#prepare-the-deployment-artifact
+Push your docker image to STUPS ```Pier One```, see here: http://docs.stups.io/en/latest/user-guide/deployment.html#prepare-the-deployment-artifact
 
 ###### Register the Kewan app in Yourturn/Kio
 
@@ -40,5 +40,4 @@ senza create kewan.yaml <STACK_VERSION> <DOCKER_IMAGE_WITH_VERSION_TAG> <MINT_BU
 
 An autoscaling group will be created and Kewan docker container will be running on all of the EC2 instances in this autoscaling group.
 
-Check the STUPS documention for additional options:
-http://stups.readthedocs.org/en/latest/
+Check the STUPS documention for additional options: http://docs.stups.io
