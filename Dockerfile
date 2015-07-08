@@ -1,11 +1,10 @@
-FROM zalando/ubuntu:14.04.1-1
+FROM zalando/python:3.4.0-1
 MAINTAINER fabian.wollert@zalando.de teng.qiu@zalando.de
 
 ENV ZOOKEEPER_VERSION="3.4.6"
 
 RUN apt-get update
-RUN apt-get install python3 python3-pip wget openjdk-7-jre -y --force-yes
-RUN easy_install-3.4 pip
+RUN apt-get install wget openjdk-7-jre -y --force-yes
 RUN pip3 install boto3
 
 ADD download_zookeeper.sh /tmp/download_zookeeper.sh
