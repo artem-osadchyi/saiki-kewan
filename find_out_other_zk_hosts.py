@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import boto3
-from boto3.session import Session
 import requests
+import sys
 from optparse import OptionParser
-import os
 
 parser = OptionParser()
 parser.add_option("-f", "--file", type="string", dest="file", help="which config file should the host to be added on?")
@@ -12,7 +11,7 @@ parser.add_option("-d", "--data_dir", type="string", dest="data_dir", help="whic
 
 (options, args) = parser.parse_args()
 
-#mandatory options
+# mandatory options
 if options.file is None:   # if filename is not given
     parser.error('file not given')
     sys.exit(2)
@@ -31,7 +30,7 @@ json = response.json()
 region = json['region']
 instanceId = json['instanceId']
 privateIp = json['privateIp']
-myid = privateIp.rsplit(".",1)[1]
+myid = privateIp.rsplit(".", 1)[1]
 
 autoscaling = boto3.client('autoscaling', region_name=region)
 ec2 = boto3.client('ec2', region_name=region)
@@ -44,18 +43,18 @@ autoscalingGroups = response['AutoScalingGroups']
 private_ips = []
 
 for autoscalingGroup in autoscalingGroups:
-  found = False
-  for instance in autoscalingGroup['Instances']:
-    if instance['InstanceId'] == instanceId:
-      found = True
-  if found:
+    found = False
     for instance in autoscalingGroup['Instances']:
-      private_ips.append(ec2.describe_instances(InstanceIds=[instance['InstanceId']])['Reservations'][0]['Instances'][0]['PrivateIpAddress'])
-    break
+        if instance['InstanceId'] == instanceId:
+            found = True
+    if found:
+        for instance in autoscalingGroup['Instances']:
+            private_ips.append(ec2.describe_instances(InstanceIds=[instance['InstanceId']])['Reservations'][0]['Instances'][0]['PrivateIpAddress'])
+        break
 
 for ip in private_ips:
     with open(config_file, mode='a', encoding='utf-8') as a_file:
-        a_file.write('server.' + ip.rsplit(".",1)[1] + '=' + ip + ':2888:3888\n')
+        a_file.write('server.' + ip.rsplit(".", 1)[1] + '=' + ip + ':2888:3888\n')
 
 with open(data_dir + "/myid", mode='w', encoding='utf-8') as a_file:
         a_file.write(myid)
