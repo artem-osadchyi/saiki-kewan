@@ -14,7 +14,7 @@ RUN /tmp/download_zookeeper.sh
 RUN tar xf /tmp/zookeeper-${ZOOKEEPER_VERSION}.tar.gz -C /opt
 
 ADD zoo.cfg /opt/zookeeper-${ZOOKEEPER_VERSION}/conf/zoo.cfg
-RUN chmod 777 /opt/zookeeper-${ZOOKEEPER_VERSION}/conf/zoo.cfg
+RUN chmod 666 /opt/zookeeper-${ZOOKEEPER_VERSION}/conf/zoo.cfg
 
 ADD find_out_other_zk_hosts.py /tmp/find_out_other_zk_hosts.py
 RUN mkdir -p /var/zookeeper
