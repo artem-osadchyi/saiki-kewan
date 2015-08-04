@@ -25,32 +25,41 @@ else:
     data_dir = options.data_dir
 
 url = 'http://169.254.169.254/latest/dynamic/instance-identity/document'
-response = requests.get(url)
-json = response.json()
-region = json['region']
-instanceId = json['instanceId']
-privateIp = json['privateIp']
-myid = privateIp.rsplit(".", 1)[1]
+try:
+    response = requests.get(url)
+    json = response.json()
+    region = json['region']
+    instanceId = json['instanceId']
+    privateIp = json['privateIp']
+    myid = privateIp.rsplit(".", 1)[1]
 
-autoscaling = boto3.client('autoscaling', region_name=region)
-ec2 = boto3.client('ec2', region_name=region)
+    autoscaling = boto3.client('autoscaling', region_name=region)
+    ec2 = boto3.client('ec2', region_name=region)
 
-ec2_desc = ec2.describe_instances(InstanceIds=[instanceId])
+    ec2_desc = ec2.describe_instances(InstanceIds=[instanceId])
 
-response = autoscaling.describe_auto_scaling_groups()
-autoscalingGroups = response['AutoScalingGroups']
+    response = autoscaling.describe_auto_scaling_groups()
+    autoscalingGroups = response['AutoScalingGroups']
 
-private_ips = []
+    private_ips = []
 
-for autoscalingGroup in autoscalingGroups:
-    found = False
-    for instance in autoscalingGroup['Instances']:
-        if instance['InstanceId'] == instanceId:
-            found = True
-    if found:
+    for autoscalingGroup in autoscalingGroups:
+        found = False
         for instance in autoscalingGroup['Instances']:
-            private_ips.append(ec2.describe_instances(InstanceIds=[instance['InstanceId']])['Reservations'][0]['Instances'][0]['PrivateIpAddress'])
-        break
+            if instance['InstanceId'] == instanceId:
+                found = True
+        if found:
+            for instance in autoscalingGroup['Instances']:
+                private_ips.append(ec2.describe_instances(InstanceIds=[instance['InstanceId']])['Reservations'][0]['Instances'][0]['PrivateIpAddress'])
+            break
+            
+except requests.exceptions.ConnectionError:
+    region=""
+    instanceId=""
+    privateIp="127.0.0.1"
+    myid="1"
+
+    private_ips = [privateIp]
 
 for ip in private_ips:
     with open(config_file, mode='a', encoding='utf-8') as a_file:
