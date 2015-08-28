@@ -50,16 +50,13 @@ try:
                 found = True
         if found:
             for instance in autoscalingGroup['Instances']:
-                private_ips.append(ec2.describe_instances(InstanceIds=[instance['InstanceId']])['Reservations'][0]['Instances'][0]['PrivateIpAddress'])
+                private_ips.append(ec2.describe_instances(
+                    InstanceIds=[instance['InstanceId']])['Reservations'][0]['Instances'][0]['PrivateIpAddress'])
             break
-            
-except requests.exceptions.ConnectionError:
-    region=""
-    instanceId=""
-    privateIp="127.0.0.1"
-    myid="1"
 
-    private_ips = [privateIp]
+except requests.exceptions.ConnectionError:
+    private_ips = ["127.0.0.1"]
+    myid = "1"
 
 for ip in private_ips:
     with open(config_file, mode='a', encoding='utf-8') as a_file:
